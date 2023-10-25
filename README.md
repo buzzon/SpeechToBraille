@@ -4,9 +4,6 @@
 * Перевода текста на русском языке в брайль
 
 ## Установка
-`pip install SpeechToBraille`
-
-## Дополнительные зависимости
 `pip install huggingsound`
 
 ## Использование
