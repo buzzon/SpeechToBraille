@@ -3,9 +3,6 @@ from huggingsound import SpeechRecognitionModel
 model = SpeechRecognitionModel("jonatasgrosman/wav2vec2-large-xlsr-53-russian")
 audio_paths = ["test.mp3"]
 
-transcriptions = model.transcribe(audio_paths)
-text = ' .'.join(list(t['transcription'] for t in transcriptions))
-                       
 BRAILLE_DICTIONARY_PATTERNS = {
     'а':'⠁',
     'б':'⠃',
@@ -43,7 +40,16 @@ BRAILLE_DICTIONARY_PATTERNS = {
     ' ': ' ',
 }
 
-def convert(text):
+
+def speechToText(audio_paths):
+    result = []
+    transcriptions = model.transcribe(audio_paths)
+    for t in transcriptions:
+        result.append(t['transcription'])
+    return result
+
+
+def convertTextToBraille(text):
     result = ""
     for char in text:
         if (char.lower() in BRAILLE_DICTIONARY_PATTERNS):
@@ -51,5 +57,7 @@ def convert(text):
     return result
 
 
-print(text)
-print(convert(text))
+text = speechToText(audio_paths)
+for t in text:
+    print(t)
+    print(convertTextToBraille(t))
