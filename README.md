@@ -26,3 +26,7 @@ from SpeechToBraille import convertTextToBraille
 converTextToBraille(text)
 >>> ⠏⠗⠊⠺⠑⠞⠂ ⠍⠊⠗⠖ 
 ```
+
+
+
+streamlit run main.py

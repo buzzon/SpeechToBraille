@@ -1,7 +1,8 @@
+from os import path
 from huggingsound import SpeechRecognitionModel
+import streamlit as st
 
 model = SpeechRecognitionModel("jonatasgrosman/wav2vec2-large-xlsr-53-russian")
-audio_paths = ["test.mp3"]
 
 BRAILLE_DICTIONARY_PATTERNS = {
     'а':'⠁',
@@ -41,14 +42,6 @@ BRAILLE_DICTIONARY_PATTERNS = {
 }
 
 
-def speechToText(audio_paths):
-    result = []
-    transcriptions = model.transcribe(audio_paths)
-    for t in transcriptions:
-        result.append(t['transcription'])
-    return result
-
-
 def convertTextToBraille(text):
     result = ""
     for char in text:
@@ -57,7 +50,19 @@ def convertTextToBraille(text):
     return result
 
 
-text = speechToText(audio_paths)
-for t in text:
-    print(t)
-    print(convertTextToBraille(t))
+w = st.file_uploader("Upload a mp3", type="mp3")
+if w:
+    print(w)
+    st.write(w.name)
+    audio_bytes = w.getvalue()
+    st.audio(audio_bytes, format='audio/ogg')
+    parent_dir = path.dirname(path.abspath(__file__))
+    output = path.join(parent_dir, w.name)
+    print(output)
+    with open(output,"wb+") as f:
+         f.write(w.getbuffer())
+         f.close()
+         transcriptions = model.transcribe([output])
+         t = transcriptions[0]['transcription']
+         st.write(t)
+         st.write(convertTextToBraille(t))
