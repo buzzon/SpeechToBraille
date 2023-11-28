@@ -49,6 +49,15 @@ def convertTextToBraille(text):
             result += BRAILLE_DICTIONARY_PATTERNS.get(char.lower())
     return result
 
+def getTextFromAudio(path: str):
+    with open(path,"wb+") as f:
+         f.write(w.getbuffer())
+         f.close()
+         print('output: ', output)
+         transcriptions = model.transcribe([output])
+         text = transcriptions[0]['transcription']
+         return text
+
 
 w = st.file_uploader("Upload a mp3", type="mp3")
 if w:
@@ -59,10 +68,6 @@ if w:
     parent_dir = path.dirname(path.abspath(__file__))
     output = path.join(parent_dir, w.name)
     print(output)
-    with open(output,"wb+") as f:
-         f.write(w.getbuffer())
-         f.close()
-         transcriptions = model.transcribe([output])
-         t = transcriptions[0]['transcription']
-         st.write(t)
-         st.write(convertTextToBraille(t))
+    text = getTextFromAudio(output)
+    st.write(text)
+    st.write(convertTextToBraille(text))

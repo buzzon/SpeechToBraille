@@ -5,6 +5,9 @@
 
 ## Установка
 `pip install huggingsound`
+            streamlit
+            fastapi
+            "uvicorn[standard]"
 
 ## Использование
 #### speechToText
