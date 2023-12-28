@@ -3,3 +3,4 @@ huggingsound==0.1.6
 pydantic==2.5.2
 streamlit==1.28.1
 pytest==7.4.3
+httpx==0.26.0
